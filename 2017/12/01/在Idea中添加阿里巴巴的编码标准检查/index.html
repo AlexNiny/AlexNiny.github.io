@@ -24,7 +24,7 @@
     <!--Title-->
 
 
-<title>归档：2017 | AlexNine</title>
+<title>在Idea中添加阿里巴巴的编码标准检查 | AlexNine</title>
 
 
     <link rel="alternate" href="/atom.xml" title="AlexNine" type="application/atom+xml">
@@ -36,6 +36,8 @@
 
 
 
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css?rev=9.12.0">
 
 
 <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css?rev=3.3.4">
@@ -118,33 +120,87 @@
     <section class="content-wrap">
         <div class="container">
             <div class="row">
-                <main class="col-md-8 main-content ">
-                    <div id="main">
-  <div id="post-list">
-    <ul class="archives-post-list">
-    	<h1 class="info">2017年 月</h1>
-        
-          <li class="post-items" _href="/2017/12/01/在Idea中添加阿里巴巴的编码标准检查/">
-            <h3 class="post-item-title">
-            	<a href="/2017/12/01/在Idea中添加阿里巴巴的编码标准检查/"> 在Idea中添加阿里巴巴的编码标准检查 </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2017/11/29/Hello-Hexo/">
-            <h3 class="post-item-title">
-            	<a href="/2017/11/29/Hello-Hexo/"> Hello Hexo </a>
-            </h3>  
-          </li>
-        
-          <li class="post-items" _href="/2017/11/29/hello-world/">
-            <h3 class="post-item-title">
-            	<a href="/2017/11/29/hello-world/"> Hello World </a>
-            </h3>  
-          </li>
-        
-    </ul>
-  </div>
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="在Idea中添加阿里巴巴的编码标准检查">
+            
+            在Idea中添加阿里巴巴的编码标准检查
+            
+        </h1>
+        <div class="post-meta">
+    
+    
+    <span class="categories-meta fa-wrap">
+        <i class="fa fa-folder-open-o"></i>
+        <span>无</span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-tags"></i>
+        <span class="tags-meta">
+            
+            null
+            
+        </span>
+    </span>
+    
+    
+    <span class="fa-wrap">
+        <i class="fa fa-clock-o"></i>
+        <span class="date-meta">2017/12/01</span>
+    </span>
 </div>
+
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="在Idea中添加阿里巴巴的编码标准检查"><a href="#在Idea中添加阿里巴巴的编码标准检查" class="headerlink" title="在Idea中添加阿里巴巴的编码标准检查"></a>在Idea中添加阿里巴巴的编码标准检查</h2><blockquote>
+<p>在公司大牛的推荐下，今天接触了一个idea的插件：“Alibaba Java Coding Guidelines”。插件可以按照阿里巴巴的JAVA编码规范来帮助检查代码，并给出改进建议。</p>
+</blockquote>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>在Idea-&gt;File-&gt;Setting-&gt;Plugins-&gt;Browse repositories 搜索 Alibaba 安装重启即可。<br><img src="http://static.ali.alexnine.net/blog/plugin.png?Expires=1512121683&amp;OSSAccessKeyId=TMP.AQFfaUn9qW07Ia5BFHGzlSW7CxNZTwbITdFFDY-XfKMFpuAfRbqKGEK3KES-ADAtAhUA91d_ixmC1al-bTZAiq-55mrf5fwCFGtcADnpTWVBLCxUF760LzqKTZva&amp;Signature=Pg3QSNEuPbAN2vmt7ekxsEE2%2Bb0%3D" alt="插件安装"><br><img src="http://static.ali.alexnine.net/blog/plugin_detail.png?Expires=1512121723&amp;OSSAccessKeyId=TMP.AQFfaUn9qW07Ia5BFHGzlSW7CxNZTwbITdFFDY-XfKMFpuAfRbqKGEK3KES-ADAtAhUA91d_ixmC1al-bTZAiq-55mrf5fwCFGtcADnpTWVBLCxUF760LzqKTZva&amp;Signature=bdCPmkNFDVOaMjwIOagtRL9WSYs%3D" alt="支持的扫描结果"></p>
+<h3 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h3><p>重启idea后，插件会自动对代码进行分析，并对不同的错误进行提示。也可使用鼠标右键进行代码的检查。检查完成后插件会将不符合规约的代码按Blocker/Critical/Major三个等级显示在下方，并在左侧相关规范问题，右侧是问题与修复建议代码。<br><img src="http://static.ali.alexnine.net/blog/result.png?Expires=1512121754&amp;OSSAccessKeyId=TMP.AQFfaUn9qW07Ia5BFHGzlSW7CxNZTwbITdFFDY-XfKMFpuAfRbqKGEK3KES-ADAtAhUA91d_ixmC1al-bTZAiq-55mrf5fwCFGtcADnpTWVBLCxUF760LzqKTZva&amp;Signature=Un5CesXPcthe%2B3zaGTkn8V5f7zE%3D" alt="扫描结果"></p>
+<h3 id="附上完整的阿里巴巴Java编码规范"><a href="#附上完整的阿里巴巴Java编码规范" class="headerlink" title="附上完整的阿里巴巴Java编码规范"></a>附上完整的阿里巴巴Java编码规范</h3><p><a href="https://github.com/alibaba/p3c/blob/master/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4Java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C%EF%BC%88%E7%BB%88%E6%9E%81%E7%89%88%EF%BC%89.pdf" target="_blank" rel="noopener">阿里巴巴JAVA开发手册</a></p>
+
+    </div>
+
+    <div class="post-footer">   
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href="" target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>  
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2017/11/29/Hello-Hexo/" class="next-post btn btn-default">下一篇<i class="fa fa-angle-right fa-fw"></i></a>
+    
+</div>
+
+
+    <div id="comments">
+        
+    <div id="uyan_frame"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1966422"></script>
+
+
+
+
+
+
+
+
+    </div>
 
 
 

@@ -239,11 +239,12 @@ pre {
   position: relative;
   text-align: center;
   line-height: 0;
-  height: 740px;
+  height: 650px;
   width: 100%;
   background: #fff url(https://static.ali.alexnine.net/anime/banner.png);
   background-repeat: repeat;
   background-attachment: fixed;
+  background-size: contain;
 }
 .main-header .banneriframe {
   width: 100%;

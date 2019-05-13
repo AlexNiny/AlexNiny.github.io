@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="AlexNine">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="算法">
+
+
+    <meta name="description" content="在开发过程中使用得比较多的算法就是排序算法和查找算法了，今天先盘点一下常见的排序算法中的两个大类交换排序和插入排序。
+交换排序快速排序基本思想：用选取的初始值（一般是第一个）将待排序序列分为小于...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Java实现常见排序算法（一） | AlexNine</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="AlexNine" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+
+	<script>
+		(function(i, s, o, g, r, a, m) {
+		    i['GoogleAnalyticsObject'] = r;
+		    i[r] = i[r] || function() {
+		        (i[r].q = i[r].q || []).push(arguments)
+		    }, i[r].l = 1 * new Date();
+		    a = s.createElement(o),
+		    m = s.getElementsByTagName(o)[0];
+		    a.async = 1;
+		    a.src = g;
+		    m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+		ga('create', 'UA-140040329-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(https://alexnine.oss-cn-beijing.aliyuncs.com/blog/1551453205512.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="AlexNine">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">AlexNine</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/technology/"><i class="fa "></i>技术</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/tools/"><i class="fa "></i>工具</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Java实现常见排序算法（一）">
+            
+	            Java实现常见排序算法（一）
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/technology/">technology</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/算法/">算法</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/05</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>在开发过程中使用得比较多的算法就是排序算法和查找算法了，今天先盘点一下常见的排序算法中的两个大类交换排序和插入排序。</p>
+<h1 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h1><h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>基本思想：用选取的初始值（一般是第一个）将待排序序列分为小于初始值和大于初始值的两部分，然后重复此操作，最终到排序完成。该算法是一个不稳定的算法（如果待排序序列中存在相同的元素，经过排序后他们的相对位置不发生改变那么这个算法就是稳定的排序算法）<br>空间复杂度最坏为O(n),平均为O(${log_2{n}}$)<br>时间复杂度最坏为O(n<sup>2</sup>),最好为O(n${log_2{n}}$),平均O(n${log_2{n}}$)<br>Java实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">public static int[] quickSort(int[] n, int low, int high) &#123;</span><br><span class="line">        int lowMark = low, highMark = high;</span><br><span class="line">        int record;</span><br><span class="line">        if (low &lt; high) &#123;</span><br><span class="line">            //记录值</span><br><span class="line">            record = n[low];</span><br><span class="line">            while (lowMark != highMark) &#123;</span><br><span class="line">                //高位指针偏移</span><br><span class="line">                while (lowMark &lt; highMark &amp;&amp; n[highMark] &gt;= record) &#123;</span><br><span class="line">                    highMark--;</span><br><span class="line">                &#125;</span><br><span class="line">                //交换元素</span><br><span class="line">                n[lowMark] = n[highMark];</span><br><span class="line">                //低位指针偏移</span><br><span class="line">                while (lowMark &lt; highMark &amp;&amp; n[lowMark] &lt;= record) &#123;</span><br><span class="line">                    lowMark++;</span><br><span class="line">                &#125;</span><br><span class="line">                //交换元素</span><br><span class="line">                n[highMark] = n[lowMark];</span><br><span class="line">            &#125;</span><br><span class="line">            //将记录值写到最后低位指针的位置</span><br><span class="line">            n[lowMark] = record;</span><br><span class="line">            //两边分别进行排序操作</span><br><span class="line">            quickSort(n, low, lowMark - 1);</span><br><span class="line">            quickSort(n, lowMark + 1, high);</span><br><span class="line">        &#125;</span><br><span class="line">        return n;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>基本思想：设待排序的序列长度为n，从前往后（或者从后往前）两两比较相邻元素的值，根据自己需要升序或者降序交换两两元素的位置，直到整个序列比较完成，称为一趟冒泡排序，执行完n-1趟冒泡即可将所有元素排好。该算法是一个稳定的算法。<br>空间复杂度为O(1)<br>时间复杂度最坏为O(n<sup>2</sup>),最好为O(n),平均为O(n<sup>2</sup>)<br>Java实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public static int[] bubbleSort(int[] nums) &#123;</span><br><span class="line">        int temp;</span><br><span class="line">        for (int i = 0; i &lt; nums.length; i++) &#123;</span><br><span class="line">            for (int j = 0; j &lt; nums.length; j++) &#123;</span><br><span class="line">                if (nums[i] &lt; nums[j]) &#123;</span><br><span class="line">                    //彼此交换,升序</span><br><span class="line">                    temp = nums[i];</span><br><span class="line">                    nums[i] = nums[j];</span><br><span class="line">                    nums[j] = temp;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return nums;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h1><h2 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h2><p>基本思想：将元素分为有序区[0…i-1]和无序区[i…n-1],将R[i]插入到[0…i-1]中，并且使插入后的区域有序。当一个元素序列越接近有序，性能越好。该算法是一个稳定的算法。<br>空间复杂度为O(1)<br>时间复杂度最坏为O(n<sup>2</sup>)，最好为O(n)，平均为O(n<sup>2</sup>)<br>Java实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">public static int[] insertSort(int[] n) &#123;</span><br><span class="line">        int i, j, guard;</span><br><span class="line">        for (i = 1; i &lt; n.length; i++) &#123;</span><br><span class="line">            //如果i位置的数比他前面的数小，则进行遍历查找应该在有序数组中的插入位置</span><br><span class="line">            if (n[i] &lt; n[i - 1]) &#123;</span><br><span class="line">                //更换哨兵</span><br><span class="line">                guard = n[i];</span><br><span class="line">                //从后向前查找</span><br><span class="line">                for (j = i - 1; j &gt;= 0; j--) &#123;</span><br><span class="line">                    //j位置如果大于哨兵，就交换当前查询数和比较数的位置</span><br><span class="line">                    if (n[j] &gt; guard) &#123;</span><br><span class="line">                        n[j + 1] = n[j];</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        break;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                //将哨兵位置放进去</span><br><span class="line">                n[j + 1] = guard;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return n;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="折半插入排序"><a href="#折半插入排序" class="headerlink" title="折半插入排序"></a>折半插入排序</h2><p>基本思想：排序思想和直接插入排序一致，区别在于折半插入排序在将元素插入到有序区时使用的是二分查找，可以减少关键字间的比较次数。该算法是一个稳定的算法。<br>空间复杂度为O(1)<br>时间复杂度平均为O(n<sup>2</sup>)<br>Java实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">private static int[] halfInsertSort(int[] n) &#123;</span><br><span class="line">        int i, j, low, high, mid, guard;</span><br><span class="line">        for (i = 1; i &lt; n.length; i++) &#123;</span><br><span class="line">            guard = n[i];</span><br><span class="line">            low = 0;</span><br><span class="line">            high = i - 1;</span><br><span class="line">            //与直接插入排序类似，只是查找插入位置时使用了二分查找</span><br><span class="line">            while (low &lt;= high) &#123;</span><br><span class="line">                mid = (low + high) / 2;</span><br><span class="line">                if (n[mid] &gt; guard) &#123;</span><br><span class="line">                    high = mid - 1;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    low = mid + 1;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            for (j = i - 1; j &gt;= high + 1; j--) &#123;</span><br><span class="line">                n[j + 1] = n[j];</span><br><span class="line">            &#125;</span><br><span class="line">            n[high + 1] = guard;</span><br><span class="line">        &#125;</span><br><span class="line">        return n;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h2><p>基本思想：将待排序元素按下标进行增量分组，对每一组的元素采用直接插入排序，随着增量逐渐减小，所分成的组所含的元素越来越多，直到增量变成了1，所有的元素在一个分组中，即完成了排序。改算法是一个不稳定的算法。<br>该算法可能不是很好理解，这里举一个例子。<br>比如我们有[1,3,41,15,6,27,10,62,11,22]这样一个待排序的数组。<br>首先我们确定一个增量5那么分组信息为[1,27],[3,10],[41,62],[15,11],[6,22]<br>内部排序后变成了[1,3,41,11,6,27,10,62,15,22]<br>第二次增量变成3分组信息为[1,11,10,22],[3,6,62],[41,27,15]<br>内部排序后变成了[1,3,15,10,6,27,11,62,41,22]<br>第三次增量变成1的即所有元素在一个分组中就成了[1,3,6,10,11,15,22,27,41,62]排序完成。<br>PS.想要弄清关键词比较次数和记录移动次数与增量选择之间的关系，并给出完整的数学分析，今仍然是数学难题。希尔提出的办法是${d_1=n/2}$,${d_{i+1}=}<script type="math/tex">\lfloor</script>{d_i}$/2$\rfloor$,并且最后一个增量等于1<br>空间复杂度：O(1)<br>时间复杂度:O((n<sup>1.3</sup>-n<sup>2</sup>)<br>Java实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">private static int[] shellSort(int[] n) &#123;</span><br><span class="line">        // i表示希尔排序中的第n/2+1个元素（或者n/4+1）</span><br><span class="line">        // j表示希尔排序中从0到n/2的元素（n/4）</span><br><span class="line">        // r表示希尔排序中n/2+1或者n/4+1的值</span><br><span class="line">        int i, j, r, tmp;</span><br><span class="line">        // 划组排序</span><br><span class="line">        for (r = n.length / 2; r &gt;= 1; r = r / 2) &#123;</span><br><span class="line">            for (i = r; i &lt; n.length; i++) &#123;</span><br><span class="line">                tmp = n[i];</span><br><span class="line">                j = i - r;</span><br><span class="line">                // 一轮排序</span><br><span class="line">                while (j &gt;= 0 &amp;&amp; tmp &lt; n[j]) &#123;</span><br><span class="line">                    n[j + r] = n[j];</span><br><span class="line">                    j -= r;</span><br><span class="line">                &#125;</span><br><span class="line">                n[j + r] = tmp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return n;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/05/07/Java实现常见算法-二/" class="pre-post btn btn-default" title="Java实现常见排序算法（二）">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Java实现常见排序算法（二）</span>
+        </a>
+    
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: ''.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">Table of Contents</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#交换排序"><span class="toc-text">交换排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#快速排序"><span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#冒泡排序"><span class="toc-text">冒泡排序</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#插入排序"><span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#直接插入排序"><span class="toc-text">直接插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#折半插入排序"><span class="toc-text">折半插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#希尔排序"><span class="toc-text">希尔排序</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2019
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

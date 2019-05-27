@@ -1,0 +1,353 @@
+<!DOCTYPE HTML>
+<html lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="AlexNine">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="http://yoursite.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="算法">
+
+
+    <meta name="description" content="JDK8中的排序算法JDK中对于数组的排序使用比较的多的是Arrays.sort()和Arrays.parallelSort()，前者是传统的排序算法，后者是JDK8新增的并行排序算法，基于fo...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>排序算法在JDK中的应用 | AlexNine</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="AlexNine" type="application/atom+xml">
+
+
+    <link rel="icon" href="/favicon.ico">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+
+
+
+
+	<script>
+		(function(i, s, o, g, r, a, m) {
+		    i['GoogleAnalyticsObject'] = r;
+		    i[r] = i[r] || function() {
+		        (i[r].q = i[r].q || []).push(arguments)
+		    }, i[r].l = 1 * new Date();
+		    a = s.createElement(o),
+		    m = s.getElementsByTagName(o)[0];
+		    a.async = 1;
+		    a.src = g;
+		    m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+		ga('create', 'UA-140040329-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(https://alexnine.oss-cn-beijing.aliyuncs.com/blog/1551453205512.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="AlexNine">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                 <img src="/img/branding.png" alt="Snippet 博客主题" class="img-responsive center-block">
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="http://yoursite.com">AlexNine</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>主页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/technology/"><i class="fa "></i>技术</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="排序算法在JDK中的应用">
+            
+	            排序算法在JDK中的应用
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/technology/">technology</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/算法/">算法</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/27</span>
+        </span>
+        
+            <span class="fa-wrap">
+                <i class="fa fa-eye"></i>
+                <span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h1 id="JDK8中的排序算法"><a href="#JDK8中的排序算法" class="headerlink" title="JDK8中的排序算法"></a>JDK8中的排序算法</h1><p>JDK中对于数组的排序使用比较的多的是Arrays.sort()和Arrays.parallelSort()，前者是传统的排序算法，后者是JDK8新增的并行排序算法，基于fork/join框架,今天主要是分析Arrays.sort()的底层实现。<br>Arrays.sort()可以对所有的基本类型（除boolean）和Object进行排序，如果是数值类型的数就直接按照从大到小的顺序排列，如果是String类型的数组就按照其ASCII码进行排序，如果是对象就按照对象内部实现的compareTo()方法进行比较排序，并且使用的是归并排序。<br>这里我们通过分析Arrays.sort(int[] a)来分析一下JDK的实现流程和方式。</p>
+<h2 id="外层方法"><a href="#外层方法" class="headerlink" title="外层方法"></a>外层方法</h2><p>第一步，调用Arrays.sort(int[] a)后，直接调用了DualPivotQuicksort.sort()字面意思是双轴快速排序，如下面代码所示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Sorts the specified array into ascending numerical order.</span><br><span class="line">     * 将数组按照升序排列</span><br><span class="line">     * &lt;p&gt;Implementation note: The sorting algorithm is a Dual-Pivot Quicksort</span><br><span class="line">     * by Vladimir Yaroslavskiy, Jon Bentley, and Joshua Bloch. This algorithm</span><br><span class="line">     * offers O(n log(n)) performance on many data sets that cause other</span><br><span class="line">     * quicksorts to degrade to quadratic performance, and is typically</span><br><span class="line">     * faster than traditional (one-pivot) Quicksort implementations.</span><br><span class="line">     * 简单的翻译：算法的三个大佬作者。这个双轴快速排序可以为那些让传统快速排序性能下降的数据集提供O(n log(n))的时间复杂度，所以速度比传统的快速排序快</span><br><span class="line">     * 这里是为什么双轴快排比普通快排更快的Paper：https://arxiv.org/pdf/1511.01138.pdf</span><br><span class="line">     * 另外一个博主的笔记：https://www.jianshu.com/p/2c6f79e8ce6e</span><br><span class="line">     * @param a the array to be sorted</span><br><span class="line">     */</span><br><span class="line">    public static void sort(int[] a) &#123;</span><br><span class="line">        DualPivotQuicksort.sort(a, 0, a.length - 1, null, 0, 0);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="改进后的归并排序"><a href="#改进后的归并排序" class="headerlink" title="改进后的归并排序"></a>改进后的归并排序</h2><p>现在我们继续跟踪代码进入sort()的内部实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * Sorts the specified range of the array using the given</span><br><span class="line">  * workspace array slice if possible for merging</span><br><span class="line">  * 在条件允许的情况下，使用给定的辅助空间对指定的数组范围内进行排序。</span><br><span class="line">  * @param a the array to be sorted 要被排序的数组</span><br><span class="line">  * @param left the index of the first element, inclusive, to be sorted 第一个元素的位置</span><br><span class="line">  * @param right the index of the last element, inclusive, to be sorted 最后一个元素的位置</span><br><span class="line">  * @param work a workspace array (slice)  工作辅助数组</span><br><span class="line">  * @param workBase origin of usable space in work array 工作辅助数组的扩容参数</span><br><span class="line">  * @param workLen usable size of work array  工作辅助数组的长度</span><br><span class="line">  * 此代码我进行了一些缩进和对齐</span><br><span class="line">  */</span><br><span class="line"> static void sort(int[] a, int left, int right,int[] work, int workBase, int workLen) &#123;</span><br><span class="line">     // Use Quicksort on small arrays</span><br><span class="line">     //If the length of an array to be sorted is less than this constant, Quicksort is used in preference to merge sort.</span><br><span class="line">     //当待排序的数组长度小于286时使用快速排序，这时快排的表现好于归并排序</span><br><span class="line">     // private static final int QUICKSORT_THRESHOLD = 286;</span><br><span class="line">     if (right - left &lt; QUICKSORT_THRESHOLD)&#123;</span><br><span class="line">         sort(a, left, right, true);</span><br><span class="line">         return;</span><br><span class="line">     &#125;</span><br><span class="line">     /*</span><br><span class="line">      * Index run[i] is the start of i-th run</span><br><span class="line">      * (ascending or descending sequence). </span><br><span class="line">      * 设置run数组第一个位置即需要排序的序列的第一个元素，长度就是是否有序的临界值</span><br><span class="line">      * //The maximum number of runs in merge sort.</span><br><span class="line">      * private static final int MAX_RUN_COUNT = 67;</span><br><span class="line">      */</span><br><span class="line">     int[] run = new int[MAX_RUN_COUNT + 1];</span><br><span class="line">     int count = 0; run[0] = left;</span><br><span class="line"></span><br><span class="line">     // Check if the array is nearly sorted</span><br><span class="line">     //检查数组是否接近有序（无序程度）</span><br><span class="line">     //这里的检查思路是：任一的数组都可以分割成若干个递增或递减的数组，比如&#123;12,33,2,10,23,21,15&#125;可以分成&#123;12,33&#125;,&#123;2,10,23&#125;,&#123;21,15&#125;这三个子数组要么是递增的要么是递减的</span><br><span class="line">     //上面的run数组就是用于存取子数组开始的下标的，然后通过比较run数组中元素个数来确定数组是否基本有序。如果大于MAX_RUN_COUNT那么就认定数组基本无序</span><br><span class="line">     for (int k = left; k &lt; right; run[count] = k) &#123;</span><br><span class="line">         // ascending 处理递增数组的位置 </span><br><span class="line">         if (a[k] &lt; a[k + 1]) &#123; </span><br><span class="line">             while (++k &lt;= right &amp;&amp; a[k - 1] &lt;= a[k]);</span><br><span class="line">             // descending 处理递减数组的位置</span><br><span class="line">         &#125; else if (a[k] &gt; a[k + 1]) &#123; </span><br><span class="line">             while (++k &lt;= right &amp;&amp; a[k - 1] &gt;= a[k]);</span><br><span class="line">             //同时将其转换为递增</span><br><span class="line">             for (int lo = run[count] - 1, hi = k; ++lo &lt; --hi; ) &#123;</span><br><span class="line">                 int t = a[lo]; a[lo] = a[hi]; a[hi] = t;</span><br><span class="line">             &#125;</span><br><span class="line">             // equal 处理相等元素</span><br><span class="line">         &#125; else &#123; </span><br><span class="line">             //The maximum length of run in merge sort. 归并排序的最多运行次数</span><br><span class="line">             //private static final int MAX_RUN_LENGTH = 33;</span><br><span class="line">             //这一步的意思是如果相等的序列等于MAX_RUN_LENGTH就直接执行快速排序。*不是很不清楚为什么要这么做*</span><br><span class="line">             for (int m = MAX_RUN_LENGTH; ++k &lt;= right &amp;&amp; a[k - 1] == a[k]; ) &#123;                  </span><br><span class="line">                 if (--m == 0) &#123;</span><br><span class="line">                     sort(a, left, right, true);</span><br><span class="line">                     return;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125; </span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         /*</span><br><span class="line">          * The array is not highly structured,</span><br><span class="line">          * use Quicksort instead of merge sort.</span><br><span class="line">          * 每次循环完成检查count值是否已经等于无序临界值，如果直接等于临界值，那么就直接使用快速排序</span><br><span class="line">          * 待排序列越接近有序，归并排序效率越高</span><br><span class="line">          */</span><br><span class="line">         if (++count == MAX_RUN_COUNT) &#123;</span><br><span class="line">             sort(a, left, right, true);</span><br><span class="line">             return;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     // Check special cases 检查特殊的情况</span><br><span class="line">     // Implementation note: variable &quot;right&quot; is increased by 1.在right变量的基础上加1</span><br><span class="line">     if (run[count] == right++) &#123; // The last run contains one element run数组的最后添加一个哨兵元素，值为right+1</span><br><span class="line">         run[++count] = right;</span><br><span class="line">     &#125; else if (count == 1) &#123; // The array is already sorted 如果只有一个单调序列那么说明数组本身就是有序的 直接跳出</span><br><span class="line">         return;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     //这下面就是归并排序的相关操作了，到这一步时说明数组通过了初步筛选，即数组长度大于286且接近有序</span><br><span class="line">     // Determine alternation base for merge 确定归并排序的交替标准</span><br><span class="line">     byte odd = 0;</span><br><span class="line">     for (int n = 1; (n &lt;&lt;= 1) &lt; count; odd ^= 1);</span><br><span class="line">     // Use or create temporary array b for merging 为归并使用或者创建一个临时数组</span><br><span class="line">     int[] b;                 // temp array; alternates with a 临时数组，为a归并时提供临时存储，即辅助空间</span><br><span class="line">     int ao, bo;              // array offsets from &apos;left&apos;设置偏移指针</span><br><span class="line">     int blen = right - left; // space needed for b 数组b需要的长度</span><br><span class="line">     //操作work数组的相关属性</span><br><span class="line">     if (work == null || workLen &lt; blen || workBase + blen &gt; work.length) &#123;</span><br><span class="line">         work = new int[blen];</span><br><span class="line">         workBase = 0;</span><br><span class="line">     &#125;</span><br><span class="line">     //通过odd确定a b数组的内容</span><br><span class="line">     //通过此操作后 a和b中必然有一个为原数组有一个为作为辅助空间的数组</span><br><span class="line">     if (odd == 0) &#123;</span><br><span class="line">         System.arraycopy(a, left, work, workBase, blen);</span><br><span class="line">         b = a;</span><br><span class="line">         bo = 0;</span><br><span class="line">         a = work;</span><br><span class="line">         ao = workBase - left;</span><br><span class="line">     &#125; else &#123;</span><br><span class="line">         b = work;</span><br><span class="line">         ao = 0;</span><br><span class="line">         bo = workBase - left;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     // Merging 归并操作</span><br><span class="line">     for (int last; count &gt; 1; count = last) &#123; //归并次数边界</span><br><span class="line">         //具体的归并过程 </span><br><span class="line">         for (int k = (last = 0) + 2; k &lt;= count; k += 2) &#123;</span><br><span class="line">             int hi = run[k], mi = run[k - 1];</span><br><span class="line">             for (int i = run[k - 2], p = i, q = mi; i &lt; hi; ++i) &#123;</span><br><span class="line">                 if (q &gt;= hi || p &lt; mi &amp;&amp; a[p + ao] &lt;= a[q + ao]) &#123;</span><br><span class="line">                     b[i + bo] = a[p++ + ao];</span><br><span class="line">                 &#125; else &#123;</span><br><span class="line">                     b[i + bo] = a[q++ + ao];</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">             run[++last] = hi;</span><br><span class="line">         &#125;</span><br><span class="line">         //如果其中的一个子序列元素个数为奇数，就直接把这个序列复制到b中</span><br><span class="line">         if ((count &amp; 1) != 0) &#123;</span><br><span class="line">             for (int i = right, lo = run[count - 1]; --i &gt;= lo;</span><br><span class="line">                 b[i + bo] = a[i + ao]</span><br><span class="line">             );</span><br><span class="line">             run[++last] = right;</span><br><span class="line">         &#125;</span><br><span class="line">         //交换数组，更新指针，准备进行下一次归并</span><br><span class="line">         int[] t = a; a = b; b = t;</span><br><span class="line">         int o = ao; ao = bo; bo = o;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上便是JDK对于sort排序中归并排序部分的优化处理，总结而言就是当待排序的数组长度大于等于286时开始考虑使用归并排序。在此同时还需要考虑的条件是待排序的数组是否是基本有序的，JDK采用的办法是将待排序数组分成若干个单调递增或者递减的数组，如果分成的小数组的个数<br>大于67就认为这个数组基本上是无序的此时就直接调用了快速排序，还有个我不是很理解的条件就是当带待排序的数组中相等的元素子序列长度大于等于MAX_RUN_LENGTH（33）时就直接使用快速排序。</p>
+<h2 id="改进后的快速排序"><a href="#改进后的快速排序" class="headerlink" title="改进后的快速排序"></a>改进后的快速排序</h2><p>在分析上述代码时，可以发现程序会在特殊的情况调用sort()方法即改进后得快速排序，接下来就来分析sort()快速排序的代码实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  * Sorts the specified range of the array by Dual-Pivot Quicksort.</span><br><span class="line">  * 通过双轴快速排序对指定范围内的数据进行排序</span><br><span class="line">  * @param a the array to be sorted 被排序的数组</span><br><span class="line">  * @param left the index of the first element, inclusive, to be sorted 需要排序的第一个元素的位置（包括在内）</span><br><span class="line">  * @param right the index of the last element, inclusive, to be sorted 需要排序的最后一个元素的位置（包括在内）</span><br><span class="line">  * @param leftmost indicates if this part is the leftmost in the range leftmost表示该部分是否是范围内最左的部分</span><br><span class="line">  */</span><br><span class="line"> private static void sort(int[] a, int left, int right, boolean leftmost) &#123;</span><br><span class="line">     int length = right - left + 1;</span><br><span class="line"></span><br><span class="line">     // Use insertion sort on tiny arrays</span><br><span class="line">     //当数组的长度很小时就是用插入排序，INSERTION_SORT_THRESHOLD=47</span><br><span class="line">     if (length &lt; INSERTION_SORT_THRESHOLD) &#123;</span><br><span class="line">         if (leftmost) &#123;</span><br><span class="line">             /*</span><br><span class="line">              * Traditional (without sentinel) insertion sort, 传统的插入排序，不使用哨兵元素</span><br><span class="line">              * optimized for server VM, is used in case of 针对最左边的部分的情况进行了服务器虚拟机的优化</span><br><span class="line">              * the leftmost part.</span><br><span class="line">              */</span><br><span class="line">             for (int i = left, j = i; i &lt; right; j = ++i) &#123;</span><br><span class="line">                 int ai = a[i + 1];</span><br><span class="line">                 while (ai &lt; a[j]) &#123;</span><br><span class="line">                     a[j + 1] = a[j];</span><br><span class="line">                     if (j-- == left) &#123;</span><br><span class="line">                         break;</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line">                 a[j + 1] = ai;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125; else &#123;</span><br><span class="line">             /*</span><br><span class="line">              * Skip the longest ascending sequence. 跳过最长的升序情况，提高算法效率</span><br><span class="line">              */</span><br><span class="line">             do &#123;</span><br><span class="line">                 if (left &gt;= right) &#123;</span><br><span class="line">                     return;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125; while (a[++left] &gt;= a[left - 1]);</span><br><span class="line"></span><br><span class="line">             /*</span><br><span class="line">              * Every element from adjoining part plays the role   在这种排序方法中相邻的每个元素都起到了哨兵的作用</span><br><span class="line">              * of sentinel, therefore this allows us to avoid the  这种办法可以避免我们每次迭代时都要进行左范围检查。</span><br><span class="line">              * left range check on each iteration. Moreover, we use 而且我们还使用了一个效率更好的算法，我们称之为“双插入排序”，</span><br><span class="line">              * the more optimized algorithm, so called pair insertion 在快速排序的上下文中（即满足进入sort()方法的数组）他比传统的</span><br><span class="line">              * sort, which is faster (in the context of Quicksort) 插入排序更快</span><br><span class="line">              * than traditional implementation of insertion sort.</span><br><span class="line">              */</span><br><span class="line">             for (int k = left; ++left &lt;= right; k = ++left) &#123;</span><br><span class="line">                 int a1 = a[k], a2 = a[left];</span><br><span class="line"></span><br><span class="line">                 if (a1 &lt; a2) &#123;</span><br><span class="line">                     a2 = a1; a1 = a[left];</span><br><span class="line">                 &#125;</span><br><span class="line">                 while (a1 &lt; a[--k]) &#123;</span><br><span class="line">                     a[k + 2] = a[k];</span><br><span class="line">                 &#125;</span><br><span class="line">                 a[++k + 1] = a1;</span><br><span class="line"></span><br><span class="line">                 while (a2 &lt; a[--k]) &#123;</span><br><span class="line">                     a[k + 1] = a[k];</span><br><span class="line">                 &#125;</span><br><span class="line">                 a[k + 1] = a2;</span><br><span class="line">             &#125;</span><br><span class="line">             int last = a[right];</span><br><span class="line"></span><br><span class="line">             while (last &lt; a[--right]) &#123;</span><br><span class="line">                 a[right + 1] = a[right];</span><br><span class="line">             &#125;</span><br><span class="line">             a[right + 1] = last;</span><br><span class="line">         &#125;</span><br><span class="line">         return;</span><br><span class="line">     &#125;</span><br><span class="line">     //从这里开始是对待排序的元素进行分组处理</span><br><span class="line">     // Inexpensive approximation of length / 7</span><br><span class="line">     // 使用length/7作为近似的加权长度</span><br><span class="line">     int seventh = (length &gt;&gt; 3) + (length &gt;&gt; 6) + 1;</span><br><span class="line"></span><br><span class="line">     /*</span><br><span class="line">      * Sort five evenly spaced elements around (and including) the 在范围内的中心元素附近找到5个均匀间隔的元素</span><br><span class="line">      * center element in the range. These elements will be used for 这些元素将用于下面代码中的枢轴选择</span><br><span class="line">      * pivot selection as described below. The choice for spacing 根据经验，这些元素的间距能够很好的应对和处理各种各样的输入（待排序的数组）</span><br><span class="line">      * these elements was empirically determined to work well on</span><br><span class="line">      * a wide variety of inputs.</span><br><span class="line">      */</span><br><span class="line">     int e3 = (left + right) &gt;&gt;&gt; 1; // The midpoint</span><br><span class="line">     int e2 = e3 - seventh;</span><br><span class="line">     int e1 = e2 - seventh;</span><br><span class="line">     int e4 = e3 + seventh;</span><br><span class="line">     int e5 = e4 + seventh;</span><br><span class="line"></span><br><span class="line">     // Sort these elements using insertion sort 使用插入排序对这些元素进行排序</span><br><span class="line">     if (a[e2] &lt; a[e1]) &#123; int t = a[e2]; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line"></span><br><span class="line">     if (a[e3] &lt; a[e2]) &#123; int t = a[e3]; a[e3] = a[e2]; a[e2] = t;</span><br><span class="line">         if (t &lt; a[e1]) &#123; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     if (a[e4] &lt; a[e3]) &#123; int t = a[e4]; a[e4] = a[e3]; a[e3] = t;</span><br><span class="line">         if (t &lt; a[e2]) &#123; a[e3] = a[e2]; a[e2] = t;</span><br><span class="line">             if (t &lt; a[e1]) &#123; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     if (a[e5] &lt; a[e4]) &#123; int t = a[e5]; a[e5] = a[e4]; a[e4] = t;</span><br><span class="line">         if (t &lt; a[e3]) &#123; a[e4] = a[e3]; a[e3] = t;</span><br><span class="line">             if (t &lt; a[e2]) &#123; a[e3] = a[e2]; a[e2] = t;</span><br><span class="line">                 if (t &lt; a[e1]) &#123; a[e2] = a[e1]; a[e1] = t; &#125;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;//分组完成</span><br><span class="line"></span><br><span class="line">     // Pointers 指针</span><br><span class="line">     int less  = left;  // The index of the first element of center part 中心部分第一个元素的位置</span><br><span class="line">     int great = right; // The index before the first element of right part 右边第一个元素之前的位置</span><br><span class="line">     //五个分位点的值各不相同</span><br><span class="line">     if (a[e1] != a[e2] &amp;&amp; a[e2] != a[e3] &amp;&amp; a[e3] != a[e4] &amp;&amp; a[e4] != a[e5]) &#123;</span><br><span class="line">         /*</span><br><span class="line">          * Use the second and fourth of the five sorted elements as pivots. 使用五个分位点中的第二个和第四个作为枢轴</span><br><span class="line">          * These values are inexpensive approximations of the first and 因为有上面的排序 所以在这里pivot1 &lt;= pivot2</span><br><span class="line">          * second terciles of the array. Note that pivot1 &lt;= pivot2.</span><br><span class="line">          */</span><br><span class="line">         int pivot1 = a[e2];</span><br><span class="line">         int pivot2 = a[e4];</span><br><span class="line"></span><br><span class="line">         /*</span><br><span class="line">          * The first and the last elements to be sorted are moved to the 将要排序的第一个和最后一个元素换到枢轴的位置</span><br><span class="line">          * locations formerly occupied by the pivots. When partitioning 当分区操作完成后，枢轴元素将和这个元素交换回到原来的位置</span><br><span class="line">          * is complete, the pivots are swapped back into their final 并排除到后续排序之外</span><br><span class="line">          * positions, and excluded from subsequent sorting.</span><br><span class="line">          */</span><br><span class="line">         a[e2] = a[left];</span><br><span class="line">         a[e4] = a[right];</span><br><span class="line"></span><br><span class="line">         /*</span><br><span class="line">          * Skip elements, which are less or greater than pivot values. </span><br><span class="line">          * 筛选那些比枢轴元素更大或者更小的元素 以此来确定less和great的位置</span><br><span class="line">          */</span><br><span class="line">         while (a[++less] &lt; pivot1);</span><br><span class="line">         while (a[--great] &gt; pivot2);</span><br><span class="line"></span><br><span class="line">         /*</span><br><span class="line">          * Partitioning:</span><br><span class="line">          *</span><br><span class="line">          *   left part           center part                   right part</span><br><span class="line">          * +--------------------------------------------------------------+</span><br><span class="line">          * |  &lt; pivot1  |  pivot1 &lt;= &amp;&amp; &lt;= pivot2  |    ?    |  &gt; pivot2  |</span><br><span class="line">          * +--------------------------------------------------------------+</span><br><span class="line">          *               ^                          ^       ^</span><br><span class="line">          *               |                          |       |</span><br><span class="line">          *              less                        k     great</span><br><span class="line">          *</span><br><span class="line">          * Invariants:</span><br><span class="line">          *</span><br><span class="line">          *              all in (left, less)   &lt; pivot1</span><br><span class="line">          *    pivot1 &lt;= all in [less, k)     &lt;= pivot2</span><br><span class="line">          *              all in (great, right) &gt; pivot2</span><br><span class="line">          *</span><br><span class="line">          * Pointer k is the first index of ?-part.</span><br><span class="line">          * 以下的forless-1开始向右遍历至great，把小于pivot1的元素移动到less左边，大于pivot2的元素移动到great右边。        </span><br><span class="line">          */</span><br><span class="line">         //outer标签</span><br><span class="line">         outer:</span><br><span class="line">         for (int k = less - 1; ++k &lt;= great; ) &#123;</span><br><span class="line">             int ak = a[k];</span><br><span class="line">             if (ak &lt; pivot1) &#123; // Move a[k] to left part</span><br><span class="line">                 a[k] = a[less];</span><br><span class="line">                 /*</span><br><span class="line">                  * Here and below we use &quot;a[i] = b; i++;&quot; instead</span><br><span class="line">                  * of &quot;a[i++] = b;&quot; due to performance issue. </span><br><span class="line">                  * 在这里分开写的原因是因为前者效率更佳</span><br><span class="line">                  * 想要了解的可以看这里的讨论：https://www.oschina.net/question/3037675_2206753</span><br><span class="line">                  */</span><br><span class="line">                 a[less] = ak;</span><br><span class="line">                 ++less;</span><br><span class="line">             &#125; else if (ak &gt; pivot2) &#123; // Move a[k] to right part</span><br><span class="line">                 while (a[great] &gt; pivot2) &#123;</span><br><span class="line">                     if (great-- == k) &#123;</span><br><span class="line">                         break outer;</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line">                //通过上面已知great&lt;pivot2，但是并不知道great和pivot1的大小关系，</span><br><span class="line">                //如果它比pivot1还小，需要移动到到less左边，否则只需要交换到k处。</span><br><span class="line">                 if (a[great] &lt; pivot1) &#123; // a[great] &lt;= pivot2</span><br><span class="line">                     a[k] = a[less];</span><br><span class="line">                     a[less] = a[great];</span><br><span class="line">                     ++less;</span><br><span class="line">                 &#125; else &#123; // pivot1 &lt;= a[great] &lt;= pivot2</span><br><span class="line">                     a[k] = a[great];</span><br><span class="line">                 &#125;</span><br><span class="line">                 /*</span><br><span class="line">                  * Here and below we use &quot;a[i] = b; i--;&quot; instead</span><br><span class="line">                  * of &quot;a[i--] = b;&quot; due to performance issue.</span><br><span class="line">                  */</span><br><span class="line">                 a[great] = ak;</span><br><span class="line">                 --great;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         // Swap pivots into their final positions</span><br><span class="line">         // 将less-1的元素放到对头，great+1的元素放在队尾</span><br><span class="line">         //然后将pivot1放在less-1,pivot2放在great+1</span><br><span class="line">         a[left]  = a[less  - 1]; a[less  - 1] = pivot1;</span><br><span class="line">         a[right] = a[great + 1]; a[great + 1] = pivot2;</span><br><span class="line"></span><br><span class="line">         // Sort left and right parts recursively, excluding known pivots</span><br><span class="line">         //递归左右部分进行排序 包括已知的轴心</span><br><span class="line">         sort(a, left, less - 2, leftmost);</span><br><span class="line">         sort(a, great + 2, right, false);</span><br><span class="line"></span><br><span class="line">         /*</span><br><span class="line">          * If center part is too large (comprises &gt; 4/7 of the array),</span><br><span class="line">          * swap internal pivot values to ends.</span><br><span class="line">          * 如果中心部分太大(大小超过了整个数组的4/7),就将内部的枢轴值交换到端点</span><br><span class="line">          */</span><br><span class="line">         if (less &lt; e1 &amp;&amp; e5 &lt; great) &#123;</span><br><span class="line">             /*</span><br><span class="line">              * Skip elements, which are equal to pivot values.</span><br><span class="line">              * 调整less和great指针的位置，即跳过相等的元素</span><br><span class="line">              */</span><br><span class="line">             while (a[less] == pivot1) &#123;</span><br><span class="line">                 ++less;</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             while (a[great] == pivot2) &#123;</span><br><span class="line">                 --great;</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">             /*</span><br><span class="line">              * Partitioning:</span><br><span class="line">              *</span><br><span class="line">              *   left part         center part                  right part</span><br><span class="line">              * +----------------------------------------------------------+</span><br><span class="line">              * | == pivot1 |  pivot1 &lt; &amp;&amp; &lt; pivot2  |    ?    | == pivot2 |</span><br><span class="line">              * +----------------------------------------------------------+</span><br><span class="line">              *              ^                        ^       ^</span><br><span class="line">              *              |                        |       |</span><br><span class="line">              *             less                      k     great</span><br><span class="line">              *</span><br><span class="line">              * Invariants:</span><br><span class="line">              *</span><br><span class="line">              *              all in (*,  less) == pivot1</span><br><span class="line">              *     pivot1 &lt; all in [less,  k)  &lt; pivot2</span><br><span class="line">              *              all in (great, *) == pivot2</span><br><span class="line">              *这下面的排序和上面的区别在于边界条件的判断</span><br><span class="line">              * Pointer k is the first index of ?-part.</span><br><span class="line">              */</span><br><span class="line">             outer:</span><br><span class="line">             for (int k = less - 1; ++k &lt;= great; ) &#123;</span><br><span class="line">                 int ak = a[k];</span><br><span class="line">                 if (ak == pivot1) &#123; // Move a[k] to left part</span><br><span class="line">                     a[k] = a[less];</span><br><span class="line">                     a[less] = ak;</span><br><span class="line">                     ++less;</span><br><span class="line">                 &#125; else if (ak == pivot2) &#123; // Move a[k] to right part</span><br><span class="line">                     while (a[great] == pivot2) &#123;</span><br><span class="line">                         if (great-- == k) &#123;</span><br><span class="line">                             break outer;</span><br><span class="line">                         &#125;</span><br><span class="line">                     &#125;</span><br><span class="line">                     if (a[great] == pivot1) &#123; // a[great] &lt; pivot2</span><br><span class="line">                         a[k] = a[less];</span><br><span class="line">                         /*</span><br><span class="line">                          * 浮点零的相关问题：https://stackoverflow.com/questions/13544342/why-do-floating-point-numbers-have-signed-zeros</span><br><span class="line">                          * Even though a[great] equals to pivot1, the 如果a[great]和pivot1是不同符号的浮点零，</span><br><span class="line">                          * assignment a[less] = pivot1 may be incorrect, 即使a[great]这个元素等于pivot1，“a[less] = pivot1”这个赋值操作也可能是不正确的</span><br><span class="line">                          * if a[great] and pivot1 are floating-point zeros （这里是对单双精度元素排序的一个特例处理，使-0排在+0之前）</span><br><span class="line">                          * of different signs. Therefore in float and 因此在单双精度的排序算法中我们必须使用更加精确的赋值即a[less]=a[great]</span><br><span class="line">                          * double sorting methods we have to use more</span><br><span class="line">                          * accurate assignment a[less] = a[great].</span><br><span class="line">                          */</span><br><span class="line">                         a[less] = pivot1;</span><br><span class="line">                         ++less;</span><br><span class="line">                     &#125; else &#123; // pivot1 &lt; a[great] &lt; pivot2</span><br><span class="line">                         a[k] = a[great];</span><br><span class="line">                     &#125;</span><br><span class="line">                     a[great] = ak;</span><br><span class="line">                     --great;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         // Sort center part recursively</span><br><span class="line">         // 对中心部分进行递归排序</span><br><span class="line">         sort(a, less, great, false);</span><br><span class="line"></span><br><span class="line">     &#125; else &#123; // Partitioning with one pivot 采用单轴分区 区别于上面那种情况</span><br><span class="line">         /*</span><br><span class="line">          * Use the third of the five sorted elements as pivot. 使用5个排序好的元素中的第三个作为枢轴元素</span><br><span class="line">          * This value is inexpensive approximation of the median. 这个值是数组的中值近似值</span><br><span class="line">          */</span><br><span class="line">         int pivot = a[e3];</span><br><span class="line">         /*</span><br><span class="line">          * Partitioning degenerates to the traditional 3-way 分区方式退化为传统的3路形式</span><br><span class="line">          * (or &quot;Dutch National Flag&quot;) schema:（或者“荷兰国旗”模式）</span><br><span class="line">          * 荷兰国旗问题（Dutch National Flag Problem）:https://www.cnblogs.com/freelancy/p/7940803.html</span><br><span class="line">          *   left part    center part              right part</span><br><span class="line">          * +-------------------------------------------------+</span><br><span class="line">          * |  &lt; pivot  |   == pivot   |     ?    |  &gt; pivot  |</span><br><span class="line">          * +-------------------------------------------------+</span><br><span class="line">          *              ^              ^        ^</span><br><span class="line">          *              |              |        |</span><br><span class="line">          *             less            k      great</span><br><span class="line">          *</span><br><span class="line">          * Invariants:</span><br><span class="line">          *</span><br><span class="line">          *   all in (left, less)   &lt; pivot</span><br><span class="line">          *   all in [less, k)     == pivot</span><br><span class="line">          *   all in (great, right) &gt; pivot</span><br><span class="line">          * 以下算法与上面算法思路差不多 不再累述</span><br><span class="line">          * Pointer k is the first index of ?-part.</span><br><span class="line">          */</span><br><span class="line">         for (int k = less; k &lt;= great; ++k) &#123;</span><br><span class="line">             if (a[k] == pivot) &#123;</span><br><span class="line">                 continue;</span><br><span class="line">             &#125;</span><br><span class="line">             int ak = a[k];</span><br><span class="line">             if (ak &lt; pivot) &#123; // Move a[k] to left part</span><br><span class="line">                 a[k] = a[less];</span><br><span class="line">                 a[less] = ak;</span><br><span class="line">                 ++less;</span><br><span class="line">             &#125; else &#123; // a[k] &gt; pivot - Move a[k] to right part</span><br><span class="line">                 while (a[great] &gt; pivot) &#123;</span><br><span class="line">                     --great;</span><br><span class="line">                 &#125;</span><br><span class="line">                 if (a[great] &lt; pivot) &#123; // a[great] &lt;= pivot</span><br><span class="line">                     a[k] = a[less];</span><br><span class="line">                     a[less] = a[great];</span><br><span class="line">                     ++less;</span><br><span class="line">                 &#125; else &#123; // a[great] == pivot</span><br><span class="line">                     /*</span><br><span class="line">                      * Even though a[great] equals to pivot, the</span><br><span class="line">                      * assignment a[k] = pivot may be incorrect,</span><br><span class="line">                      * if a[great] and pivot are floating-point</span><br><span class="line">                      * zeros of different signs. Therefore in float</span><br><span class="line">                      * and double sorting methods we have to use</span><br><span class="line">                      * more accurate assignment a[k] = a[great].</span><br><span class="line">                      */</span><br><span class="line">                     a[k] = pivot;</span><br><span class="line">                 &#125;</span><br><span class="line">                 a[great] = ak;</span><br><span class="line">                 --great;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         /*</span><br><span class="line">          * Sort left and right parts recursively.对左右部分进行递归排序</span><br><span class="line">          * All elements from center part are equal 中间的元素都相等，所以已经排序</span><br><span class="line">          * and, therefore, already sorted.</span><br><span class="line">          */</span><br><span class="line">         sort(a, left, less - 1, leftmost);</span><br><span class="line">         sort(a, great + 1, right, false);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述代码便是jdk1.8中快速排序sort()的源码部分，总结一下主要有以下几个要点</p>
+<ul>
+<li>当待排数组的长度小于47时就会直接使用插入排序</li>
+<li>选择五个均匀间隔的元素作为使用不同快速排序方法的判断标准</li>
+<li>如果五个元素互不相等那么使用双轴快速排序（两个枢轴为e2和e4）</li>
+<li>否则使用只有一个枢轴值（e3）进行排序，但是这里还是把待排序数组分成了三个部分分别是大于，等于和小于枢轴的区域</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>写了好久终于把这篇博客写好了，过程中查了好多的资料看了好多的博客，不过最后还是把这个坑填上了，收获颇多。</li>
+<li>写JDK源码的大佬是真的好厉害，注释很清晰，可惜有些注释不能翻译得很准确，还是要提高英语水平。</li>
+<li>阅读源码的能力还是要多提升，这次看注释+博客和边调试边理解的方式还是挺不错的。</li>
+<li>多学习 多阅读 多思考</li>
+</ul>
+<h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><p>排序算法写得差不了，接下来准备把数据结构的内容用Java语言全部写一遍。争取在9月份之前完成这个目标。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://wuukee.github.io/posts/dual.html" target="_blank" rel="noopener">双轴快排原理解析</a></li>
+<li><a href="https://blog.csdn.net/octopusflying/article/details/52388012" target="_blank" rel="noopener">JDK源码解析(1)</a></li>
+</ul>
+
+    </div>
+    
+        <div class="reward" ontouchstart>
+    <div class="reward-wrap">赏
+        <div class="reward-box">
+            
+            
+                <span class="reward-type">
+                    <img class="wechat" src="https://alexnine.oss-cn-beijing.aliyuncs.com/blog/reward-wepay.png"><b>微信打赏</b>
+                </span>
+            
+        </div>
+    </div>
+    <p class="reward-tip">请我喝一杯82年的雪碧吧</p>
+</div>
+
+
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+    
+        <a href="/2019/05/07/Java实现常见算法-二/" class="next-post btn btn-default" title="Java实现常见排序算法（二）">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Java实现常见排序算法（二）</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: '',
+            appKey: '',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: ''.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">Table of Contents</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JDK8中的排序算法"><span class="toc-text">JDK8中的排序算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#外层方法"><span class="toc-text">外层方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改进后的归并排序"><span class="toc-text">改进后的归并排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改进后的快速排序"><span class="toc-text">改进后的快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PS"><span class="toc-text">PS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        Total:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        Visitors:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2019
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
